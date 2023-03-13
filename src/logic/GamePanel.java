@@ -1,5 +1,7 @@
 package logic;
 
+import entities.Box;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -30,6 +32,10 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     public void setupGame(){
+
+        Box box1 = new Box(this);
+        box1.x = 10;
+        box1.y = 10;
 
     }
 
