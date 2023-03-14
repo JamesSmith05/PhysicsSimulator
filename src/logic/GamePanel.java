@@ -1,11 +1,13 @@
 package logic;
 
 import entities.Box;
+import entities.Entity;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable, ActionListener {
     public int tileSize = 32;
@@ -19,11 +21,12 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Thread gameThread;
     public boolean rightClick,leftClick;
+    public ArrayList<Entity> entityList = new ArrayList<>();
     public GamePanel() {
 
         //setup Jframe
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
+        this.setBackground(Color.darkGray);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.addMouseListener(keyM);
@@ -34,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void setupGame(){
 
         Box box1 = new Box(this);
+        entityList.add(box1);
         box1.x = 10;
         box1.y = 10;
 
@@ -48,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     @Override
     public void run() {
 
-        int FPS = 20;
+        int FPS = 40;
         double drawInterval = 1000000000 / FPS; //0.01666 seconds
         double delta = 0;
         long lastTime = System.nanoTime();
@@ -85,6 +89,22 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     private void update() {
 
+        for (int i = 0; i < entityList.size(); i++) {
+            entityList.get(i).update();
+        }
+    }
+
+    public void paintComponent(Graphics g) {
+
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        for (int i = 0; i < entityList.size(); i++) {
+            entityList.get(i).draw(g2);
+        }
+
+        g2.dispose();
     }
 
     @Override

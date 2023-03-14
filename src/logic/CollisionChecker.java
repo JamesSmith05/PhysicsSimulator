@@ -13,9 +13,9 @@ public class CollisionChecker {
 
         int bottomLeftX = entity.x + entity.solidArea.x;
         int bottomRightX = entity.x + entity.solidArea.x + entity.solidArea.width;
-        int bottomY = entity.y + entity.solidArea.y;
+        int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
 
-        if (bottomY>gp.screenHeight){
+        if (bottomY>=gp.screenHeight){
             entity.y = gp.screenHeight - entity.solidArea.height;
             return true;
         }
