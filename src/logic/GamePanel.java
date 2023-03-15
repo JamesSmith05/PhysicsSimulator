@@ -2,6 +2,7 @@ package logic;
 
 import entities.Box;
 import entities.Entity;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable, ActionListener {
     public int tileSize = 32;
 
-    public final int maxScreenCol = 46;
-    public final int maxScreenRow = 30;
+    public final int maxScreenCol = 34;
+    public final int maxScreenRow = 24;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
     public KeyHandler keyH = new KeyHandler(this);
@@ -22,6 +23,9 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public Thread gameThread;
     public boolean rightClick,leftClick;
     public ArrayList<Entity> entityList = new ArrayList<>();
+
+    public TileManager tileM = new TileManager(this);
+
     public GamePanel() {
 
         //setup Jframe
@@ -38,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
         Box box1 = new Box(this);
         entityList.add(box1);
-        box1.x = 10;
+        box1.x = 35;
         box1.y = 10;
 
     }
@@ -92,6 +96,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         for (int i = 0; i < entityList.size(); i++) {
             entityList.get(i).update();
         }
+
+        //System.out.println("x: " + entityList.get(0).x + " y: " + entityList.get(0).y + " width: " +entityList.get(0).solidArea.width + " height: " +entityList.get(0).solidArea.height  + " solidX: " + entityList.get(0).solidArea.x + " solidY: " + entityList.get(0).solidArea.y);
     }
 
     public void paintComponent(Graphics g) {
@@ -99,6 +105,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+
+        tileM.draw(g2);
 
         for (int i = 0; i < entityList.size(); i++) {
             entityList.get(i).draw(g2);

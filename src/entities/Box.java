@@ -17,6 +17,7 @@ public class Box extends Entity{
     }
 
     public void update() {
+        //allows left and right movement, along with slowing down the box if no button is pressed
         if(gp.keyH.rightPressed){
             rightForce = 2;
         }else if(gp.keyH.leftPressed){
@@ -28,6 +29,7 @@ public class Box extends Entity{
         }else {
             rightForce = 0;
         }
+
         if(gp.keyH.upPressed){
             if(gp.cChecker.collisionDown(this)){
                 doubleJump = true;
@@ -76,7 +78,29 @@ public class Box extends Entity{
             rightVelocity = -vMax;
         }
 
-        x += rightVelocity;
+        int temp;
+
+        if(rightVelocity > 0){
+            temp = gp.cChecker.futureCollisionRight(this);
+            if(temp != -1){
+                rightVelocity = temp;
+            }
+            if(!gp.cChecker.collisionRight(this)){
+                x += rightVelocity;
+            }
+        }else if(rightVelocity < 0){
+            temp = gp.cChecker.futureCollisionLeft(this);
+            if(temp != 1){
+                rightVelocity = temp;
+            }
+            if(!gp.cChecker.collisionLeft(this)){
+                x += rightVelocity;
+            }
+        }
+        temp = gp.cChecker.futureCollisionDown(this);
+        if(temp != -1){
+            downVelocity = temp;
+        }
 
         y += downVelocity;
 

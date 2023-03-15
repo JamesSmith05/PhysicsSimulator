@@ -15,6 +15,7 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
 
     public int downForce, rightForce, downAcceleration, rightAcceleration, downVelocity, rightVelocity, mass;
+    public boolean collisionRight, collisionLeft, collisionUp, collisionDown;
     public int vMax = 15;
     public int x,y;
     public boolean doubleJump = true;
