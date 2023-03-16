@@ -11,11 +11,15 @@ public class Entity {
 
     GamePanel gp;
     public BufferedImage image;
-    public Rectangle solidArea = new Rectangle(0, 0, gp.tileSize,gp.tileSize);
+    public Rectangle solidArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
 
-    public int nForce, sForce, wForce, eForce, nAcceleration, sAcceleration, wAcceleration, eAcceleration, nVelocity, sVelocity, wVelocity, eVelocity, mass;
+    public int downForce, rightForce, downAcceleration, rightAcceleration, downVelocity, rightVelocity, mass;
+    public boolean collisionRight, collisionLeft, collisionUp, collisionDown;
+    public int vMax = 15;
     public int x,y;
+    public boolean doubleJump = true;
+    public int doubleJumpCounter;
 
     public Entity(GamePanel gp){
         this.gp = gp;
@@ -25,12 +29,40 @@ public class Entity {
 
     //update position direction and health of entities that don't overide
     public void update() {
-        sForce = 9;
-        nAcceleration = nForce/mass;
-        sAcceleration = sForce/mass;
+        if(gp.cChecker.collisionDown(this)){
+            downVelocity = 0;
+        }else{
+            downForce = 1;
+        }
+        downAcceleration = downForce/mass;
+        downVelocity += downAcceleration;
+
+        rightAcceleration = rightForce/mass;
+        rightVelocity += rightAcceleration;
+
+        if (downVelocity > vMax ){
+            downVelocity = vMax;
+        }
+        if (-downVelocity > vMax){
+            downVelocity = -vMax;
+        }
+
+        if (rightVelocity > vMax ){
+            rightVelocity = vMax;
+        }
+        if (-rightVelocity > vMax){
+            rightVelocity = -vMax;
+        }
+
+        x += rightVelocity;
+
+        y += downVelocity;
+
     }
 
     public void draw(Graphics2D g2) {
+
+        g2.drawImage(image, x, y,null);
     }
 
     public void changeOpacity(Graphics2D g2, Float alphaValue){

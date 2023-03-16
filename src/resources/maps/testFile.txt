@@ -1,0 +1,6 @@
+background.png
+false
+square.png
+false
+wall.png
+true
