@@ -95,6 +95,34 @@ public class CollisionChecker {
 
     }
 
+    public boolean collisionUp (Entity entity){
+
+        int leftX = entity.x + entity.solidArea.x +1; //single offset so that only the square is checked, not the corners, that leak into the next tile
+        int rightX = entity.x + entity.solidArea.x + entity.solidArea.width -1; //single offset so that only the square is checked, not the corners, that leak into the next tile
+        int topY = entity.y + entity.solidArea.y;
+
+        if (topY <= 0) {
+            entity.y = entity.solidArea.y;
+            entity.downVelocity = 0;
+            return true;
+        }
+
+        int topLeftCol = leftX/gp.tileSize;
+        int topRightCol = rightX/gp.tileSize;
+        int topRow = topY/gp.tileSize;
+
+        int tileNum1 = gp.tileM.mapTileNum[topLeftCol][topRow];
+        int tileNum2 = gp.tileM.mapTileNum[topRightCol][topRow];
+
+        if(gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+            entity.downVelocity = 0;
+            entity.y = (topRow +1)*gp.tileSize + entity.solidArea.y;
+            return true;
+        }
+
+        return false;
+    }
+
     public int futureCollisionRight (Entity entity){
 
         int rightX = entity.x + entity.solidArea.x + entity.solidArea.width;
@@ -169,49 +197,34 @@ public class CollisionChecker {
         return -1;
     }
 
-    public void checkTile(Entity entity) {
+    public int futureCollisionUp (Entity entity){
 
-        int entityLeftWorldX = entity.x + entity.solidArea.x;
-        int entityRightWorldX = entity.x + entity.solidArea.x + entity.solidArea.width;
-        int entityTopWorldY = entity.y + entity.solidArea.y;
-        int entityBottomWorldY = entity.y + entity.solidArea.y + entity.solidArea.height;
+        int leftX = entity.x + entity.solidArea.x +1; //single offset so that only the square is checked, not the corners, that leak into the next tile
+        int rightX = entity.x + entity.solidArea.x + entity.solidArea.width -1; //single offset so that only the square is checked, not the corners, that leak into the next tile
+        int topY = entity.y + entity.solidArea.y;
+        int nextTopY = topY + entity.downVelocity;
 
-        int entityLeftCol = entityLeftWorldX / gp.tileSize;
-        int entityRightCol = entityRightWorldX / gp.tileSize;
-        int entityTopRow = entityTopWorldY / gp.tileSize;
-        int entityBottomRow = entityBottomWorldY / gp.tileSize;
-
-        int tileNum1, tileNum2;
-
-        if(entity.downVelocity > 0){
-            entityBottomRow = (entityBottomWorldY + entity.downVelocity) / gp.tileSize;
-            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
-            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
-            if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                entity.collisionRight = true;
-            }
-        }else if(entity.downVelocity < 0){
-            entityTopRow = (entityTopWorldY + entity.downVelocity) / gp.tileSize;
-            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
-            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
-            if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                entity.collisionUp = true;
-            }
+        if (nextTopY <= 0) {
+            System.out.println("topY: " + topY );
+            System.out.println("nextTopY: " + nextTopY);
+            return - topY;
         }
-        if(entity.rightVelocity > 0){
-            entityRightCol = (entityRightWorldX + entity.rightVelocity) / gp.tileSize;
-            tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
-            tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
-            if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                entity.collisionRight = true;
-            }
-        }else if(entity.rightVelocity < 0){
-            entityLeftCol = (entityLeftWorldX + entity.rightVelocity) / gp.tileSize;
-            tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
-            tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
-            if (gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
-                entity.collisionLeft = true;
-            }
+
+        int topLeftCol = leftX/gp.tileSize;
+        int topRightCol = rightX/gp.tileSize;
+        int topRow = nextTopY/gp.tileSize;
+
+        int tileNum1 = gp.tileM.mapTileNum[topLeftCol][topRow];
+        int tileNum2 = gp.tileM.mapTileNum[topRightCol][topRow];
+
+        if(gp.tileM.tile[tileNum1].collision || gp.tileM.tile[tileNum2].collision) {
+            System.out.println("topY: " + topY );
+            System.out.println("nextTopY: " + nextTopY);
+            System.out.println("returned speed: " + (((topRow + 1 )*gp.tileSize) - topY));
+            return ((topRow + 1 )*gp.tileSize) - topY;
         }
+
+        return 1;
     }
+
 }

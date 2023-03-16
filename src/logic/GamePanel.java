@@ -43,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         Box box1 = new Box(this);
         entityList.add(box1);
         box1.x = 35;
-        box1.y = 10;
+        box1.y = 16;
 
     }
 

@@ -8,7 +8,7 @@ public class Main {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Tower Defense");
+        window.setTitle("Little square man does his own thing");
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
