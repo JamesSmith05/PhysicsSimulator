@@ -17,7 +17,7 @@ public class Box extends Entity{
     }
 
     public void update() {
-        //System.out.println("box y: " + y);
+        gp.eHandler.checkEvent();
         //allows left and right movement, along with slowing down the box if no button is pressed
         if(gp.keyH.rightPressed){
             rightForce = 1;

@@ -19,12 +19,17 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public final int screenHeight = tileSize * maxScreenRow;
     public KeyHandler keyH = new KeyHandler(this);
     public CheckMouse keyM = new CheckMouse(this);
+    public EventHandler eHandler = new EventHandler(this);
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Thread gameThread;
     public boolean rightClick,leftClick;
     public ArrayList<Entity> entityList = new ArrayList<>();
 
     public TileManager tileM = new TileManager(this);
+
+    public Box player = new Box(this);
+
+    public int currentLevel = 1;
 
     public GamePanel() {
 
@@ -40,11 +45,24 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public void setupGame(){
 
-        Box box1 = new Box(this);
-        entityList.add(box1);
-        box1.x = 35;
-        box1.y = 16;
+        player.x = 35;
+        player.y = 16;
+    }
 
+    public void level2(){
+
+        tileM.loadMap("/resources/maps/Map02.txt");
+
+        player.x = 35;
+        player.y = 16;
+    }
+
+    public void level3(){
+
+        tileM.loadMap("/resources/maps/Map03.txt");
+
+        player.x = 35;
+        player.y = 16;
     }
 
     public void startGameThread() {
@@ -93,9 +111,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     private void update() {
 
-        for (int i = 0; i < entityList.size(); i++) {
-            entityList.get(i).update();
-        }
+        player.update();
 
         //System.out.println("x: " + entityList.get(0).x + " y: " + entityList.get(0).y + " width: " +entityList.get(0).solidArea.width + " height: " +entityList.get(0).solidArea.height  + " solidX: " + entityList.get(0).solidArea.x + " solidY: " + entityList.get(0).solidArea.y);
     }
@@ -108,9 +124,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
         tileM.draw(g2);
 
-        for (int i = 0; i < entityList.size(); i++) {
-            entityList.get(i).draw(g2);
-        }
+        player.draw(g2);
 
         g2.dispose();
     }

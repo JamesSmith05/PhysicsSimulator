@@ -28,7 +28,7 @@ public class TileManager {
     public void getTileImage() {
         //PLACEHOLDERS
         setup(0, "background", false);
-//        setup(1, "grass00", false);
+        setup(1, "door", false);
         setup(2, "wall", true);
 //        setup(3, "grass00", false);
 //        setup(4, "grass00", false);
