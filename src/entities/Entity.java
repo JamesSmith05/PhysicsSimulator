@@ -12,11 +12,15 @@ public class Entity {
     GamePanel gp;
     public BufferedImage image;
     public Rectangle solidArea = new Rectangle(0, 0, 0, 0);
+    public Rectangle eventSolidArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX, solidAreaDefaultY;
+    public int eventSolidAreaDefaultX, eventSolidAreaDefaultY;
+
 
     public double downForce, rightForce, downAcceleration, rightAcceleration, mass;
     public int downVelocity, rightVelocity;
-    public boolean collisionRight, collisionLeft, collisionUp, collisionDown;
+    public boolean isPlatform = false;
+
     public int vMax = 15;
     public int x,y;
     public boolean doubleJump = true;

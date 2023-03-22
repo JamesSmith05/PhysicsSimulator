@@ -1,5 +1,7 @@
 package logic;
 
+import entities.Entity;
+
 import java.awt.*;
 
 public class EventHandler {
@@ -19,8 +21,8 @@ public class EventHandler {
         while (col< gp.maxScreenCol && row < gp.maxScreenRow){
 
             eventRect[col][row]  = new EventRect();
-            eventRect[col][row].x = 23;
-            eventRect[col][row].y = 23;
+            eventRect[col][row].x = gp.tileSize/2 - 1;
+            eventRect[col][row].y = gp.tileSize/2 - 1;
             eventRect[col][row].width = 2;
             eventRect[col][row].height = 2;
             eventRect[col][row].eventRectDefaultX = eventRect[col][row].x;
@@ -35,63 +37,78 @@ public class EventHandler {
 
     }
 
-    public  void checkEvent(){
+    public void checkEvent(Entity entity){
 
         //check if player is more than 1 tile away
-        int xDistance = Math.abs(gp.player.x - previousEventX);
-        int yDistance = Math.abs(gp.player.y - previousEventY);
+        int xDistance = Math.abs(entity.x - previousEventX);
+        int yDistance = Math.abs(entity.y - previousEventY);
         int distance = Math.max(xDistance,yDistance);
-        if (distance > gp.tileSize){
-            canTouchEvent = true;
-        }
-
-        if(canTouchEvent){
-            if(hit(32, 5, "any")){
-                nextRoom(32,5);
+//        if (distance > gp.tileSize){
+//            canTouchEvent = true;
+//        }
+//
+//        if(canTouchEvent){
+            if(hit(32, 5,entity, "any")){
+                nextRoom();
             }
-//            if(hit(23, 19, "any"))
-//            {damagePit(23,19,gp.dialogueState);
-//            }
-//            if(hit(23,12,"up")){
-//                healingPool(23,12,gp.dialogueState);
-//            }
-        }
+            if(entity.isPlatform){
+                if(hit(15, 9,entity, "any")){
+                    platformBounceLeft(entity);
+                }
+                if(hit(1,9,entity,"up")){
+                    platformBounceRight(entity);
+                }
+            }
+
+//        }
     }
-    public boolean hit(int col, int row, String reqDirection){
+    public boolean hit(int col, int row, Entity entity, String reqDirection){
         boolean hit = false;
 
-        gp.player.solidArea.x = gp.player.x + gp.player.solidArea.x;
-        gp.player.solidArea.y = gp.player.y + gp.player.solidArea.y;
+        entity.eventSolidArea.x = entity.x + entity.eventSolidArea.x;
+        entity.eventSolidArea.y = entity.y + entity.eventSolidArea.y;
         eventRect[col][row].x = col*gp.tileSize + eventRect[col][row].x;
         eventRect[col][row].y = row*gp.tileSize + eventRect[col][row].y;
 
-        if (gp.player.solidArea.intersects(eventRect[col][row]) && !eventRect[col][row].eventDone){
+        if (entity.eventSolidArea.intersects(eventRect[col][row]) && !eventRect[col][row].eventDone){
                 hit = true;
 
-                previousEventX = gp.player.x;
-                previousEventY = gp.player.y;
+                previousEventX = entity.x;
+                previousEventY = entity.y;
 
         }
 
-        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
-        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+        entity.eventSolidArea.x = entity.eventSolidAreaDefaultX;
+        entity.eventSolidArea.y = entity.eventSolidAreaDefaultY;
         eventRect[col][row].x = eventRect[col][row].eventRectDefaultX;
         eventRect[col][row].y = eventRect[col][row].eventRectDefaultY;
 
         return hit;
     }
 
-    public void nextRoom(int col, int row){
+    public void platformBounceLeft(Entity entity){
+        entity.rightVelocity = -5;
+    }
+
+    public void platformBounceRight(Entity entity){
+        entity.rightVelocity = 5;
+    }
+
+    public void nextRoom(){
 
         if(gp.keyH.downPressed){
             switch (gp.currentLevel){
                 case 1:
                     gp.level2();
+                    gp.currentLevel=2;
                     break;
                 case 2:
                     gp.level3();
+                    gp.currentLevel=3;
                     break;
                 default:
+                    gp.setupGame();
+                    gp.currentLevel=1;
                     break;
             }
         }

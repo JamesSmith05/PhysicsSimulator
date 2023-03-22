@@ -2,6 +2,7 @@ package logic;
 
 import entities.Box;
 import entities.Entity;
+import entities.Platform;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public CollisionChecker cChecker = new CollisionChecker(this);
     public Thread gameThread;
     public boolean rightClick,leftClick;
-    public ArrayList<Entity> entityList = new ArrayList<>();
+    public ArrayList<Entity> platformList = new ArrayList<>();
 
     public TileManager tileM = new TileManager(this);
 
@@ -52,6 +53,12 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void level2(){
 
         tileM.loadMap("/resources/maps/Map02.txt");
+
+        Platform platform = new Platform(this);
+        platform.y = 289;
+        platform.x = 33;
+        platform.rightVelocity = 5;
+        platformList.add(platform);
 
         player.x = 35;
         player.y = 16;
@@ -113,6 +120,10 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
         player.update();
 
+        for (int i = 0; i < platformList.size(); i++) {
+            platformList.get(i).update();
+        }
+
         //System.out.println("x: " + entityList.get(0).x + " y: " + entityList.get(0).y + " width: " +entityList.get(0).solidArea.width + " height: " +entityList.get(0).solidArea.height  + " solidX: " + entityList.get(0).solidArea.x + " solidY: " + entityList.get(0).solidArea.y);
     }
 
@@ -123,6 +134,10 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         Graphics2D g2 = (Graphics2D) g;
 
         tileM.draw(g2);
+
+        for (int i = 0; i < platformList.size(); i++) {
+            platformList.get(i).draw(g2);
+        }
 
         player.draw(g2);
 

@@ -10,14 +10,21 @@ public class Box extends Entity{
         solidArea.y = 0;
         solidArea.width = gp.tileSize;
         solidArea.height = gp.tileSize;
+        eventSolidArea.x = gp.tileSize/8;
+        eventSolidArea.y = gp.tileSize/8;
+        eventSolidArea.width = gp.tileSize*6/8;
+        eventSolidArea.height = gp.tileSize*6/8;
+
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        eventSolidAreaDefaultX = eventSolidArea.x;
+        eventSolidAreaDefaultY = eventSolidArea.y;
         getImage();
 
     }
 
     public void update() {
-        gp.eHandler.checkEvent();
+        gp.eHandler.checkEvent(this);
         //allows left and right movement, along with slowing down the box if no button is pressed
         if(gp.keyH.rightPressed){
             rightForce = 1;
@@ -118,7 +125,7 @@ public class Box extends Entity{
 
     public void getImage() {
 
-        image = setup("square", gp.tileSize, gp.tileSize);
+        image = setup("entities/square", gp.tileSize, gp.tileSize);
 
     }
 }
