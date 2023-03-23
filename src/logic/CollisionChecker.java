@@ -25,14 +25,15 @@ public class CollisionChecker {
         for (int i = 0; i < gp.platformList.size(); i++) {
             Entity target = gp.platformList.get(i);
             //get entity solid area position and move one pixel down
-            entity.solidArea.x = entity.x + entity.solidArea.x + 1;
-            entity.solidArea.y = entity.y + entity.solidArea.y;
+            entity.solidArea.x = entity.x + entity.solidArea.x;
+            entity.solidArea.y = entity.y + entity.solidArea.y + 1;
             //get object solid area position
             target.solidArea.x = target.x + target.solidArea.x;
             target.solidArea.y = target.y + target.solidArea.y;
 
             if (entity.solidArea.intersects(target.solidArea)) {
                 if (target != entity) {
+                    entity.downVelocity = 0;
                     entity.y = target.solidArea.y - entity.solidAreaDefaultY - entity.solidArea.height;
                     entity.solidArea.x = entity.solidAreaDefaultX;
                     entity.solidArea.y = entity.solidAreaDefaultY;

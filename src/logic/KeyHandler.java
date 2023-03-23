@@ -43,6 +43,9 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_ALT) {
             altPressed = true;
         }
+        if (code == KeyEvent.VK_R) {
+            gp.resetLevel();
+        }
     }
 
     @Override

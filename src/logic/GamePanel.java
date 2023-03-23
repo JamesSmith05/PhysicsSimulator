@@ -45,18 +45,26 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     public void setupGame(){
+        platformList.clear();
+
+        Platform platform = new Platform(this);
+        platform.y = tileSize*20 + 1;
+        platform.x = tileSize*25 + 1;
+        platform.downVelocity = -2;
+        platformList.add(platform);
 
         player.x = 35;
         player.y = 16;
     }
 
     public void level2(){
+        platformList.clear();
 
         tileM.loadMap("/resources/maps/Map02.txt");
 
         Platform platform = new Platform(this);
-        platform.y = 289;
-        platform.x = 33;
+        platform.y = tileSize*9 + 1;
+        platform.x = tileSize + 1;
         platform.rightVelocity = 5;
         platformList.add(platform);
 
@@ -65,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     public void level3(){
+        platformList.clear();
 
         tileM.loadMap("/resources/maps/Map03.txt");
 
@@ -142,6 +151,37 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         player.draw(g2);
 
         g2.dispose();
+    }
+
+    public void resetLevel(){
+        switch (currentLevel){
+            case 1:
+                setupGame();
+                break;
+            case 2:
+                level2();
+                break;
+            case 3:
+                level3();
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                break;
+            default:
+                break;
+        }
+
     }
 
     @Override
