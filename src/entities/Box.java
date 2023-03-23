@@ -110,13 +110,16 @@ public class Box extends Entity{
                 x += rightVelocity;
             }
         }
-        temp = gp.cChecker.futureCollisionDown(this);
-        if(temp != -1){
-            downVelocity = temp;
-        }
-        temp = gp.cChecker.futureCollisionUp(this);
-        if(temp != 1){
-            downVelocity = temp;
+        if(downVelocity > 0){
+            temp = gp.cChecker.futureCollisionDown(this);
+            if(temp != -1){
+                downVelocity = temp;
+            }
+        } else if (downVelocity < 0){
+            temp = gp.cChecker.futureCollisionUp(this);
+            if(temp != 1){
+                downVelocity = temp;
+            }
         }
 
         y += downVelocity;
