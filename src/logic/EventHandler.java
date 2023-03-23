@@ -58,6 +58,12 @@ public class EventHandler {
                 if(hit(1,9,entity,"up")){
                     platformBounceRight(entity);
                 }
+                if(hit(25, 22,entity, "any")){
+                    platformBounceUp(entity);
+                }
+                if(hit(25,15,entity,"up")){
+                    platformBounceDown(entity);
+                }
             }
 
 //        }
@@ -92,6 +98,14 @@ public class EventHandler {
 
     public void platformBounceRight(Entity entity){
         entity.rightVelocity = 5;
+    }
+
+    public void platformBounceUp(Entity entity){
+        entity.downVelocity = -2;
+    }
+
+    public void platformBounceDown(Entity entity){
+        entity.downVelocity = 2;
     }
 
     public void nextRoom(){

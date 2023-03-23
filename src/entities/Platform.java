@@ -31,6 +31,8 @@ public class Platform extends Entity{
 
         x += rightVelocity;
 
+        y += downVelocity;
+
     }
 
     public void getImage() {
