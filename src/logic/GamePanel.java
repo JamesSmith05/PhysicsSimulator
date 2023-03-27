@@ -47,6 +47,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void setupGame(){
         platformList.clear();
 
+        tileM.loadMap("/resources/maps/Map01.txt");
+
         Platform platform = new Platform(this);
         platform.y = tileSize*20 + 1;
         platform.x = tileSize*25 + 1;
@@ -54,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         platformList.add(platform);
 
         player.x = 35;
-        player.y = 16;
+        player.y = 35;
     }
 
     public void level2(){
@@ -69,7 +71,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         platformList.add(platform);
 
         player.x = 35;
-        player.y = 16;
+        player.y = 35;
     }
 
     public void level3(){
@@ -78,7 +80,16 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         tileM.loadMap("/resources/maps/Map03.txt");
 
         player.x = 35;
-        player.y = 16;
+        player.y = 35;
+    }
+
+    public void level4(){
+        platformList.clear();
+
+        tileM.loadMap("/resources/maps/Map03.txt");
+
+        player.x = 35;
+        player.y = 35;
     }
 
     public void startGameThread() {
@@ -127,12 +138,11 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     private void update() {
 
-        player.update();
-
         for (int i = 0; i < platformList.size(); i++) {
             platformList.get(i).update();
         }
 
+        player.update();
         //System.out.println("x: " + entityList.get(0).x + " y: " + entityList.get(0).y + " width: " +entityList.get(0).solidArea.width + " height: " +entityList.get(0).solidArea.height  + " solidX: " + entityList.get(0).solidArea.x + " solidY: " + entityList.get(0).solidArea.y);
     }
 
@@ -165,6 +175,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
                 level3();
                 break;
             case 4:
+                level4();
                 break;
             case 5:
                 break;

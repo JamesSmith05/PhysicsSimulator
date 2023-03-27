@@ -154,7 +154,7 @@ public class CollisionChecker {
     public int futureCollisionRight(Entity entity) {
 
         int rightX = entity.x + entity.solidArea.x + entity.solidArea.width;
-        int nextRightX = rightX + entity.rightVelocity;
+        int nextRightX = rightX + (int) entity.rightVelocity;
         int topY = entity.y + entity.solidArea.y + 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
         int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height - 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
 
@@ -178,7 +178,7 @@ public class CollisionChecker {
     public int futureCollisionLeft(Entity entity) {
 
         int leftX = entity.x + entity.solidArea.x;
-        int nextLeftX = leftX + entity.rightVelocity;
+        int nextLeftX = leftX + (int) entity.rightVelocity;
         int topY = entity.y + entity.solidArea.y + 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
         int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height - 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
 
@@ -207,7 +207,7 @@ public class CollisionChecker {
         int leftX = entity.x + entity.solidArea.x + 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
         int rightX = entity.x + entity.solidArea.x + entity.solidArea.width - 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
         int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
-        int nextBottomY = bottomY + entity.downVelocity;
+        int nextBottomY = bottomY + (int) entity.downVelocity;
 
         if (nextBottomY >= gp.screenHeight) {
             return gp.screenHeight - bottomY;
@@ -220,7 +220,7 @@ public class CollisionChecker {
             entity.solidArea.y = entity.y + entity.solidArea.y;
             //get object solid area position
             target.solidArea.x = target.x + target.solidArea.x;
-            target.solidArea.y = target.y + target.solidArea.y;
+            target.solidArea.y = target.y + target.solidArea.y ;
 
             entity.solidArea.y += entity.downVelocity;
 
@@ -258,7 +258,7 @@ public class CollisionChecker {
         int leftX = entity.x + entity.solidArea.x + 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
         int rightX = entity.x + entity.solidArea.x + entity.solidArea.width - 1; //single offset so that only the square is checked, not the corners, that leak into the next tile
         int topY = entity.y + entity.solidArea.y;
-        int nextTopY = topY + entity.downVelocity;
+        int nextTopY = topY + (int) entity.downVelocity;
 
         if (nextTopY <= 0) {
             System.out.println("topY: " + topY);

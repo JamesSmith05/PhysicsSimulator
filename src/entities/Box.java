@@ -123,7 +123,6 @@ public class Box extends Entity{
         }
 
         y += downVelocity;
-
     }
 
     public void getImage() {

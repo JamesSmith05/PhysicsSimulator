@@ -18,7 +18,7 @@ public class Entity {
 
 
     public double downForce, rightForce, downAcceleration, rightAcceleration, mass;
-    public int downVelocity, rightVelocity;
+    public double downVelocity, rightVelocity;
     public boolean isPlatform = false;
 
     public int vMax = 15;
@@ -67,7 +67,7 @@ public class Entity {
 
     public void draw(Graphics2D g2) {
 
-        g2.drawImage(image, x, y,null);
+        g2.drawImage(image, (int) (x),(int) (y),null);
     }
 
     public void changeOpacity(Graphics2D g2, Float alphaValue){
