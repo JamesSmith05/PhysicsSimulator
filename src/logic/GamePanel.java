@@ -101,9 +101,11 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     @Override
     public void run() {
 
-        int FPS = 40;
-        double drawInterval = 1000000000 / FPS; //0.01666 seconds
+        int FPS = 240;
+        double drawInterval = 1000000000 / FPS; // 1/240th of a second
+        double gameInterval = 1000000000 / 40;
         double delta = 0;
+        double gamma = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
@@ -114,17 +116,24 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime)/drawInterval;
+            gamma += ((currentTime - lastTime)/gameInterval);
+
             timer += (currentTime - lastTime);
             lastTime = currentTime;
 
             if(delta>=1) {
                 // update information e.g. positions
-                update();
                 // draw the screen with updated information
                 repaint();
                 delta--;
                 drawCount++;
             }
+
+            if(gamma>=1){
+                update();
+                gamma--;
+            }
+
 
             if(timer>=1000000000){
                 drawCount = 0;
